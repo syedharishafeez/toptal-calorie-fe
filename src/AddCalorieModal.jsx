@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
+import jwt from "jwt-decode";
 import Fade from "@material-ui/core/Fade";
 import {
   MuiPickersUtilsProvider,
@@ -47,7 +45,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddCalorieModal(props) {
   const classes = useStyles();
-  console.log("props === ", props);
+  debugger;
+  let userToken = localStorage ? jwt(localStorage.getItem("token")) : {};
 
   let validationSchema = yup.object({
     time: yup.date().nullable("Enter a time"),
@@ -151,9 +150,7 @@ export default function AddCalorieModal(props) {
                       isValid,
                       dirty,
                     } = formikProps;
-                    console.log("values === ", values);
-                    console.log("errors === ", errors);
-                    console.log("touched === ", touched);
+
                     return (
                       <Form xs={12} md={12} lg={12}>
                         <div className="form-control">
@@ -235,6 +232,35 @@ export default function AddCalorieModal(props) {
                             </div>
                           )}
                         </div>
+                        {userToken.role === "admin" && (
+                          <div>
+                            <TextField
+                              label="User"
+                              variant="standard"
+                              name="userId"
+                              id="userId"
+                              margin="normal"
+                              value={values.userId}
+                              onChange={(onChangeValue) =>
+                                formikProps.setFieldValue(
+                                  "userId",
+                                  onChangeValue.target.value
+                                )
+                              }
+                              onBlur={handleBlur}
+                              // classvalue={
+                              //   errors.value && touched.value
+                              //     ? "input-error"
+                              //     : null
+                              // }
+                            />
+                            {errors.userId && touched.userId && (
+                              <div classvalue="error" style={{ color: "red" }}>
+                                {errors.userId}
+                              </div>
+                            )}
+                          </div>
+                        )}
                         <Button
                           type="submit"
                           variant="contained"

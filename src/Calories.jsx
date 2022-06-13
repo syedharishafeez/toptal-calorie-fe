@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import MaterialTable from "material-table";
 import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
+import jwt from "jwt-decode";
 import Container from "@material-ui/core/Container";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SearchIcon from "@material-ui/icons/Search";
@@ -52,17 +52,20 @@ export default function Calories() {
   const handleModalOpen = () => {
     setOpen(true);
   };
-
+  debugger;
+  let userToken = localStorage ? jwt(localStorage.getItem("token")) : {};
   const [editCalorieData, setEditCalorieData] = React.useState({
     name: "",
     value: "",
     time: new Date(),
+    userId: "",
   });
 
   const [columns, setColumns] = React.useState([
     { title: "Name", field: "name" },
     { title: "Value", field: "value" },
     { title: "Time", field: "time" },
+    { title: "User", field: "userId" },
     // {
     //   title: "Birth Place",
     //   field: "birthCity",
@@ -101,11 +104,20 @@ export default function Calories() {
               editCalorieData={editCalorieData}
               calorieData={calorieData}
               setCalorieData={setCalorieData}
-              formInitialValues={{
-                name: editCalorieData.name,
-                value: editCalorieData.value,
-                time: new Date(editCalorieData.time),
-              }}
+              formInitialValues={
+                userToken.role === "admin"
+                  ? {
+                      name: editCalorieData.name,
+                      value: editCalorieData.value,
+                      time: new Date(editCalorieData.time),
+                      userId: editCalorieData.userId,
+                    }
+                  : {
+                      name: editCalorieData.name,
+                      value: editCalorieData.value,
+                      time: new Date(editCalorieData.time),
+                    }
+              }
               isEdit={isEdit}
             />
           </Grid>

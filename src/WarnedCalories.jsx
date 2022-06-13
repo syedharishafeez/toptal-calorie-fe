@@ -49,25 +49,31 @@ export default function WarnedCalories(props) {
   const [columns, setColumns] = useState([
     { title: "Date", field: "date" },
     { title: "Total Calorie", field: "totalCalorie" },
+    { title: "User", field: "userId" },
   ]);
   const [perDayCalories, setPerDayCalories] = useState([]);
 
   useEffect(() => {
     if (props.calorieData && props.calorieData.length) {
       let totalAccumulatedCalorie = props.calorieData.reduce((acc, item) => {
-        debugger;
         let splitDate = item.time.split("T");
-        if (acc[splitDate[0]]) {
-          acc[splitDate[0]] = acc[splitDate[0]] + item.value;
+        if (acc[`${splitDate[0]}__${item.userId}`]) {
+          acc[`${splitDate[0]}__${item.userId}`] =
+            acc[`${splitDate[0]}__${item.userId}`] + item.value;
         } else {
-          acc[splitDate[0]] = item.value;
+          acc[`${splitDate[0]}__${item.userId}`] = item.value;
         }
         return acc;
       }, {});
       debugger;
       let dateAndCalorie = Object.entries(totalAccumulatedCalorie)?.map(
         (item) => {
-          return { date: item[0], totalCalorie: item[1] };
+          let dateAndUserId = item[0].split("__");
+          return {
+            date: dateAndUserId[0],
+            totalCalorie: item[1],
+            userId: dateAndUserId[1],
+          };
         }
       );
       setPerDayCalories(dateAndCalorie);

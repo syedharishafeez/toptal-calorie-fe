@@ -21,6 +21,19 @@ export const mainListItems = (props) => {
         </ListItemIcon>
         <ListItemText primary="Calories" />
       </ListItem>
+
+      <ListItem
+        button
+        selected={window.location.href.includes("invite-a-friend")}
+        onClick={() => {
+          props.history.push("/invite-a-friend");
+        }}
+      >
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
+        <ListItemText primary="Invite A Friend" />
+      </ListItem>
     </div>
   );
 };

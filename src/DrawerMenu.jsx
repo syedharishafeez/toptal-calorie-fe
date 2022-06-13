@@ -19,6 +19,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Switch, Route, useHistory } from "react-router-dom";
 import Users from "./Calories";
+import InviteAFriend from "./InviteAFriend";
 
 const drawerWidth = 240;
 
@@ -98,7 +99,7 @@ function ResponsiveDrawer(props) {
             noWrap
             className={classes.title}
           >
-            Medicsi
+            Calorie Tracker App
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
@@ -148,6 +149,7 @@ function ResponsiveDrawer(props) {
       </nav>
       <Switch>
         <Route exact={true} path="/calories" component={Users} />{" "}
+        <Route exact={true} path="/invite-a-friend" component={InviteAFriend} />{" "}
       </Switch>
     </div>
   );
