@@ -93,8 +93,9 @@ export default function AddCalorieModal(props) {
         url: `/calorie`,
         body: value,
       });
-      debugger;
-      props.setCalorieData([...props.calorieData, { ...res.data }]);
+      if (res.status === 200) {
+        props.setCalorieData([...props.calorieData, { ...res.data }]);
+      }
       props.setOpen(false);
     }
   };
