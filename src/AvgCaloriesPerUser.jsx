@@ -74,30 +74,31 @@ export default function AvgCaloriesPerWeek() {
   useEffect(() => {
     async function fetchCalories() {
       let res = await makeRequest({ method: "GET", url: "/report" });
+      if (res.status === 200) {
+        let eachUserCalorie = res.data.thisWeekCalories.reduce((acc, item) => {
+          if (acc[item.userId]) {
+            acc[item.userId]["totalCalories"] =
+              acc[item.userId]["totalCalories"] + item.value;
+            acc[item.userId]["totalCaloriesEnter"] =
+              acc[item.userId]["totalCaloriesEnter"] + 1;
+          } else {
+            acc[item.userId] = {
+              totalCalories: item.value,
+              totalCaloriesEnter: 1,
+            };
+          }
+          return acc;
+        }, {});
 
-      let eachUserCalorie = res.data.thisWeekCalories.reduce((acc, item) => {
-        if (acc[item.userId]) {
-          acc[item.userId]["totalCalories"] =
-            acc[item.userId]["totalCalories"] + item.value;
-          acc[item.userId]["totalCaloriesEnter"] =
-            acc[item.userId]["totalCaloriesEnter"] + 1;
-        } else {
-          acc[item.userId] = {
-            totalCalories: item.value,
-            totalCaloriesEnter: 1,
+        let avgUserCalorie = Object.entries(eachUserCalorie).map((item) => {
+          return {
+            userId: item[0],
+            avgCalorie: item[1].totalCalories / item[1].totalCaloriesEnter,
           };
-        }
-        return acc;
-      }, {});
+        });
 
-      let avgUserCalorie = Object.entries(eachUserCalorie).map((item) => {
-        return {
-          userId: item[0],
-          avgCalorie: item[1].totalCalories / item[1].totalCaloriesEnter,
-        };
-      });
-
-      setAvgCaloriesThisWeek(avgUserCalorie);
+        setAvgCaloriesThisWeek(avgUserCalorie);
+      }
       // setThisWeekCalories(
       //   res?.data?.thisWeekCalories ? res?.data?.thisWeekCalories : []
       // );

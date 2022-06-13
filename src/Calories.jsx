@@ -80,7 +80,9 @@ export default function Calories() {
   useEffect(() => {
     async function fetchCalories() {
       let res = await makeRequest({ method: "GET", url: "/calorie" });
-      setCalorieData(res.data);
+      if (res.status === 200) {
+        setCalorieData(res.data);
+      }
     }
     fetchCalories();
   }, []);

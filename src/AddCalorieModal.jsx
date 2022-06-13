@@ -76,15 +76,16 @@ export default function AddCalorieModal(props) {
         url: `/calorie/${props.editCalorieData._id}`,
         body: value,
       });
-      let updatedCalorieData = props.calorieData.map((item) => {
-        if (item._id === res.data._id) {
-          return res.data;
-        } else {
-          return item;
-        }
-      });
-      debugger;
-      props.setCalorieData(updatedCalorieData);
+      if (res.status === 200) {
+        let updatedCalorieData = props.calorieData.map((item) => {
+          if (item._id === res.data._id) {
+            return res.data;
+          } else {
+            return item;
+          }
+        });
+        props.setCalorieData(updatedCalorieData);
+      }
       props.setOpen(false);
     } else {
       let res = await makeRequest({
