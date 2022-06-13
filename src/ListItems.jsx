@@ -8,13 +8,16 @@ import PeopleIcon from "@material-ui/icons/People";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 
 export const mainListItems = (props) => {
-  let userToken = localStorage ? jwt(localStorage.getItem("token")) : {};
+  let userToken =
+    localStorage && localStorage.getItem("token")
+      ? jwt(localStorage.getItem("token"))
+      : {};
 
   return (
     <div>
       <ListItem
         button
-        selected={window.location.href.includes("calories")}
+        selected={window.location.pathname === "/calories"}
         onClick={() => {
           props.history.push("/calories");
         }}
@@ -38,18 +41,33 @@ export const mainListItems = (props) => {
         <ListItemText primary="Invite A Friend" />
       </ListItem>
 
-      {userToken.role === "admin" && (
+      {userToken?.role === "admin" && (
         <ListItem
           button
-          selected={window.location.href.includes("invite-a-friend")}
+          selected={window.location.href.includes("this-week-vs-last-week")}
           onClick={() => {
-            props.history.push("/invite-a-friend");
+            props.history.push("/this-week-vs-last-week");
           }}
         >
           <ListItemIcon>
             <PeopleIcon />
           </ListItemIcon>
-          <ListItemText primary="Invite A Friend" />
+          <ListItemText primary="This Week vs Last Week" />
+        </ListItem>
+      )}
+
+      {userToken?.role === "admin" && (
+        <ListItem
+          button
+          selected={window.location.href.includes("avg-calories-per-week")}
+          onClick={() => {
+            props.history.push("/avg-calories-per-week");
+          }}
+        >
+          <ListItemIcon>
+            <PeopleIcon />
+          </ListItemIcon>
+          <ListItemText primary="Average Calories Per Week" />
         </ListItem>
       )}
     </div>

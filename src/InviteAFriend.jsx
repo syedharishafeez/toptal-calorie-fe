@@ -35,7 +35,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function InviteAFriend(props) {
   const classes = useStyles();
-  let userToken = localStorage ? jwt(localStorage.getItem("token")) : {};
+  let userToken =
+    localStorage && localStorage.getItem("token")
+      ? jwt(localStorage.getItem("token"))
+      : {};
 
   let validationSchema = yup.object({
     name: yup.string().required("Enter a name"),

@@ -72,7 +72,10 @@ export default function Calories() {
   ]);
   const [calorieData, setCalorieData] = React.useState([]);
 
-  let userToken = localStorage ? jwt(localStorage.getItem("token")) : {};
+  let userToken =
+    localStorage && localStorage.getItem("token")
+      ? jwt(localStorage.getItem("token"))
+      : {};
 
   useEffect(() => {
     async function fetchCalories() {
@@ -108,7 +111,7 @@ export default function Calories() {
               calorieData={calorieData}
               setCalorieData={setCalorieData}
               formInitialValues={
-                userToken.role === "admin"
+                userToken?.role === "admin"
                   ? {
                       name: editCalorieData.name,
                       value: editCalorieData.value,

@@ -45,7 +45,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddCalorieModal(props) {
   const classes = useStyles();
-  let userToken = localStorage ? jwt(localStorage.getItem("token")) : {};
+  let userToken =
+    localStorage && localStorage.getItem("token")
+      ? jwt(localStorage.getItem("token"))
+      : {};
 
   let validationSchema = yup.object({
     time: yup.date().nullable("Enter a time"),
@@ -233,7 +236,7 @@ export default function AddCalorieModal(props) {
                             </div>
                           )}
                         </div>
-                        {userToken.role === "admin" && (
+                        {userToken?.role === "admin" && (
                           <div>
                             <TextField
                               label="User"

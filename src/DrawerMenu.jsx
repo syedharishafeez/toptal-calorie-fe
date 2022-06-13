@@ -18,8 +18,10 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Switch, Route, useHistory } from "react-router-dom";
-import Users from "./Calories";
+import Calories from "./Calories";
 import InviteAFriend from "./InviteAFriend";
+import ThisWeekVsLastWeek from "./ThisWeekVsLastWeek";
+import AvgCaloriesPerWeek from "./AvgCaloriesPerUser";
 
 const drawerWidth = 240;
 
@@ -148,8 +150,18 @@ function ResponsiveDrawer(props) {
         </Hidden>
       </nav>
       <Switch>
-        <Route exact={true} path="/calories" component={Users} />{" "}
+        <Route exact={true} path="/calories" component={Calories} />{" "}
         <Route exact={true} path="/invite-a-friend" component={InviteAFriend} />{" "}
+        <Route
+          exact={true}
+          path="/this-week-vs-last-week"
+          component={ThisWeekVsLastWeek}
+        />{" "}
+        <Route
+          exact={true}
+          path="/avg-calories-per-week"
+          component={AvgCaloriesPerWeek}
+        />{" "}
       </Switch>
     </div>
   );
