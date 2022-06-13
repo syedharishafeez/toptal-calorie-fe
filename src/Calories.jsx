@@ -52,8 +52,6 @@ export default function Calories() {
   const handleModalOpen = () => {
     setOpen(true);
   };
-  debugger;
-  let userToken = localStorage ? jwt(localStorage.getItem("token")) : {};
   const [editCalorieData, setEditCalorieData] = React.useState({
     name: "",
     value: "",
@@ -73,6 +71,9 @@ export default function Calories() {
     // },
   ]);
   const [calorieData, setCalorieData] = React.useState([]);
+
+  let userToken = localStorage ? jwt(localStorage.getItem("token")) : {};
+
   useEffect(() => {
     async function fetchCalories() {
       let res = await makeRequest({ method: "GET", url: "/calorie" });
@@ -80,6 +81,8 @@ export default function Calories() {
     }
     fetchCalories();
   }, []);
+
+  console.log("rerender");
 
   return (
     <main className={classes.content}>
@@ -189,15 +192,14 @@ export default function Calories() {
                 //   }),
                 onRowDelete: async (oldData) => {
                   return await (async function () {
-                    debugger;
                     let res = await makeRequest({
                       method: "DELETE",
                       url: `/calorie/${oldData._id}`,
                     });
-                    debugger;
                     let finalizedCalories = calorieData.filter(
                       (item) => item._id !== oldData._id
                     );
+                    debugger;
                     setCalorieData(finalizedCalories);
                   })();
 

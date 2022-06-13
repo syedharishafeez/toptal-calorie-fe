@@ -45,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddCalorieModal(props) {
   const classes = useStyles();
-  debugger;
   let userToken = localStorage ? jwt(localStorage.getItem("token")) : {};
 
   let validationSchema = yup.object({
@@ -81,6 +80,7 @@ export default function AddCalorieModal(props) {
           return item;
         }
       });
+      debugger;
       props.setCalorieData(updatedCalorieData);
       props.setOpen(false);
     } else {
@@ -89,6 +89,7 @@ export default function AddCalorieModal(props) {
         url: `/calorie`,
         body: value,
       });
+      debugger;
       props.setCalorieData([...props.calorieData, { ...res.data }]);
       props.setOpen(false);
     }

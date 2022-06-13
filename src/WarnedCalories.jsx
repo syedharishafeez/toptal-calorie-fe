@@ -54,7 +54,7 @@ export default function WarnedCalories(props) {
   const [perDayCalories, setPerDayCalories] = useState([]);
 
   useEffect(() => {
-    if (props.calorieData && props.calorieData.length) {
+    if (Array.isArray(props.calorieData)) {
       let totalAccumulatedCalorie = props.calorieData.reduce((acc, item) => {
         let splitDate = item.time.split("T");
         if (acc[`${splitDate[0]}__${item.userId}`]) {
@@ -65,7 +65,6 @@ export default function WarnedCalories(props) {
         }
         return acc;
       }, {});
-      debugger;
       let dateAndCalorie = Object.entries(totalAccumulatedCalorie)?.map(
         (item) => {
           let dateAndUserId = item[0].split("__");
